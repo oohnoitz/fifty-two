@@ -9,15 +9,15 @@ config :fifty_two, FiftyTwo.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-# Configure your database
-config :fifty_two, FiftyTwo.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "fifty_two_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
-
-
+# Configure Comeonin
 config :comeonin, :bcrypt_log_rounds, 4
 config :comeonin, :pbkdf2_rounds, 1
+
+# Configure JUnitFormatter
+config :junit_formatter,
+  report_file: "results.xml",
+  print_report_file: true
+
+# Import the config/test.secret.exs which is used for
+# specifying credentials.
+import_config "test.secret.exs"
