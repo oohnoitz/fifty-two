@@ -29,6 +29,8 @@ defmodule FiftyTwo.User do
     |> generate_encrypted_password
   end
 
+  @doc """
+  """
   def changeset_registration(struct, params \\ %{}) do
     struct
     |> changeset(params)
@@ -36,10 +38,7 @@ defmodule FiftyTwo.User do
     |> validate_length(:password, min: 6)
   end
 
-  @doc """
-  Generates an encrypted password
-  """
-  def generate_encrypted_password(current_changeset) do
+  defp generate_encrypted_password(current_changeset) do
     case current_changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
         put_change(current_changeset, :encrypted_password, Comeonin.Bcrypt.hashpwsalt(password))
