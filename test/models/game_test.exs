@@ -3,7 +3,7 @@ defmodule FiftyTwo.GameTest do
 
   alias FiftyTwo.Game
 
-  @valid_attrs %{appid: 42, date_completed: %{day: 17, month: 4, year: 2010}, date_started: %{day: 17, month: 4, year: 2010}, image: "some content", platform: "some content", playtime: "120.5", title: "some content"}
+  @valid_attrs %{challenge_id: 1, appid: 42, date_completed: %{day: 17, month: 4, year: 2010}, date_started: %{day: 17, month: 4, year: 2010}, image: "some content", platform: "some content", playtime: "120.5", title: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

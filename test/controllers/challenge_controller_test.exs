@@ -2,8 +2,13 @@ defmodule FiftyTwo.ChallengeControllerTest do
   use FiftyTwo.ConnCase
 
   alias FiftyTwo.Challenge
-  @valid_attrs %{name: "some content", year: 42}
+  @valid_attrs %{user_id: 1, name: "name", year: 2017}
   @invalid_attrs %{}
+
+  setup do
+    Repo.insert!(%FiftyTwo.User{id: 1, username: "username", password: "password", email: "test@test.localhost"})
+    :ok
+  end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, challenge_path(conn, :index)

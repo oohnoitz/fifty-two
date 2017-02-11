@@ -3,7 +3,7 @@ defmodule FiftyTwo.ChallengeTest do
 
   alias FiftyTwo.Challenge
 
-  @valid_attrs %{name: "some content", year: 42}
+  @valid_attrs %{user_id: 1, name: "name", year: 2017}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

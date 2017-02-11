@@ -2,8 +2,14 @@ defmodule FiftyTwo.GameControllerTest do
   use FiftyTwo.ConnCase
 
   alias FiftyTwo.Game
-  @valid_attrs %{appid: 42, date_completed: %{day: 17, month: 4, year: 2010}, date_started: %{day: 17, month: 4, year: 2010}, image: "some content", platform: "some content", playtime: "120.5", title: "some content"}
+  @valid_attrs %{challenge_id: 1, appid: 42, date_completed: %{day: 17, month: 4, year: 2010}, date_started: %{day: 17, month: 4, year: 2010}, image: "some content", platform: "some content", playtime: "120.5", title: "some content"}
   @invalid_attrs %{}
+
+  setup do
+    Repo.insert!(%FiftyTwo.User{id: 1, username: "username", password: "password", email: "test@test.localhost"})
+    Repo.insert!(%FiftyTwo.Challenge{id: 1, user_id: 1, name: "name", year: 2017})
+    :ok
+  end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, game_path(conn, :index)

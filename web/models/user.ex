@@ -12,8 +12,8 @@ defmodule FiftyTwo.User do
     timestamps()
   end
 
-  @required_fields [:username, :password, :email]
-  @optional_fields [:encrypted_password]
+  @required_fields [:username, :email]
+  @optional_fields [:password, :encrypted_password]
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
@@ -24,7 +24,16 @@ defmodule FiftyTwo.User do
     |> validate_required(@required_fields)
     |> unique_constraint(:username, message: "Username is already taken.")
     |> unique_constraint(:email, message: "Email is already associated with another account.")
+    |> validate_length(:email, min: 1, max: 255)
+    |> validate_format(:email, ~r/@/)
     |> generate_encrypted_password
+  end
+
+  def changeset_registration(struct, params \\ %{}) do
+    struct
+    |> changeset(params)
+    |> validate_required([:password])
+    |> validate_length(:password, min: 6)
   end
 
   @doc """

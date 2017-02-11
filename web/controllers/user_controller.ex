@@ -9,12 +9,12 @@ defmodule FiftyTwo.UserController do
   end
 
   def new(conn, _params) do
-    changeset = User.changeset(%User{})
+    changeset = User.changeset_registration(%User{})
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
+    changeset = User.changeset_registration(%User{}, user_params)
 
     case Repo.insert(changeset) do
       {:ok, _user} ->
