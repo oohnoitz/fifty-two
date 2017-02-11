@@ -11,12 +11,15 @@ defmodule FiftyTwo.Challenge do
     timestamps()
   end
 
+  @required_fields [:user_id, :name, :year]
+  @optional_fields []
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :year])
-    |> validate_required([:name, :year])
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 end

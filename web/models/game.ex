@@ -15,12 +15,15 @@ defmodule FiftyTwo.Game do
     timestamps()
   end
 
+  @required_fields [:challenge_id, :title, :platform]
+  @optional_fields [:appid, :image, :date_started, :date_completed, :playtime]
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :appid, :image, :platform, :date_started, :date_completed, :playtime])
-    |> validate_required([:title, :appid, :image, :platform, :date_started, :date_completed, :playtime])
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 end
