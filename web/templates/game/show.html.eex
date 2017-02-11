@@ -1,0 +1,43 @@
+<h2>Show game</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @game.title %>
+  </li>
+
+  <li>
+    <strong>Appid:</strong>
+    <%= @game.appid %>
+  </li>
+
+  <li>
+    <strong>Image:</strong>
+    <%= @game.image %>
+  </li>
+
+  <li>
+    <strong>Platform:</strong>
+    <%= @game.platform %>
+  </li>
+
+  <li>
+    <strong>Date started:</strong>
+    <%= @game.date_started %>
+  </li>
+
+  <li>
+    <strong>Date completed:</strong>
+    <%= @game.date_completed %>
+  </li>
+
+  <li>
+    <strong>Playtime:</strong>
+    <%= @game.playtime %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: game_path(@conn, :edit, @game) %>
+<%= link "Back", to: game_path(@conn, :index) %>

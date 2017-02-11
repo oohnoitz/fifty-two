@@ -17,6 +17,10 @@ defmodule FiftyTwo.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
+    resources "/challenges", ChallengeController
+    resources "/games", GameController
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.
