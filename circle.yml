@@ -28,5 +28,5 @@ database:
 
 test:
   override:
-    - mix test
+    - mix coveralls.circle
     - mkdir -p $CIRCLE_TEST_REPORTS/exunit; cp _build/test/lib/fifty_two/results.xml $CIRCLE_TEST_REPORTS/exunit
