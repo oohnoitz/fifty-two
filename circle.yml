@@ -13,7 +13,7 @@ dependencies:
     - asdf plugin-add erlang https://github.com/asdf-vm/asdf-erlang.git || true
     - asdf plugin-add elixir https://github.com/asdf-vm/asdf-elixir.git || true
     - asdf install
-    - mp config/test.secret-ci.exs config/test.sercret.exs
+    - mv config/test.secret-ci.exs config/test.secret.exs
     - mix local.hex --force
     - mix local.rebar --force
   override:
