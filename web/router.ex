@@ -12,6 +12,7 @@ defmodule FiftyTwo.Router do
   pipeline :session do
     plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource
+    plug FiftyTwo.Plug.CurrentUser
   end
 
   pipeline :api do

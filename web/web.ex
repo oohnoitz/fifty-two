@@ -52,8 +52,6 @@ defmodule FiftyTwo.Web do
       import FiftyTwo.Router.Helpers
       import FiftyTwo.ErrorHelpers
       import FiftyTwo.Gettext
-
-      import FiftyTwo.Auth, only: [current_user: 1, logged_in?: 1]
     end
   end
 

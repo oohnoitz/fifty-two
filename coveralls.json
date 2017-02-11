@@ -1,0 +1,7 @@
+{
+  "skip_files": [
+    "test/support",
+    "web/gettext.ex",
+    "web/web.ex"
+  ]
+}
