@@ -3,6 +3,8 @@ defmodule FiftyTwo.UserController do
 
   alias FiftyTwo.User
 
+  plug :load_and_authorize_resource, model: User, only: [:edit, :update, :delete]
+
   def index(conn, _params) do
     users = Repo.all(User)
     render(conn, "index.html", users: users)

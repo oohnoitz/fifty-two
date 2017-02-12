@@ -30,6 +30,12 @@ config :guardian, Guardian,
   secret_key: System.get_env("SECRET_KEY") || "SECRET_KEY",
   serializer: FiftyTwo.Serializer.Guardian
 
+config :canary,
+  repo: FiftyTwo.Repo,
+  current_user: :current_user,
+  not_found_handler: {FiftyTwo.ControllerHelper, :handle_not_found},
+  unauthorized_handler: {FiftyTwo.ControllerHelper, :handle_unauthorized}
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

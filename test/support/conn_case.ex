@@ -29,6 +29,15 @@ defmodule FiftyTwo.ConnCase do
 
       # The default endpoint for testing
       @endpoint FiftyTwo.Endpoint
+
+      def login(user, token \\ :token, opts \\ []) do
+        Phoenix.ConnTest.build_conn()
+        |> bypass_through(FiftyTwo.Router, [:browser, :session])
+        |> get("/")
+        |> Guardian.Plug.sign_in(user, token, opts)
+        |> send_resp(200, "Flush Session!")
+        |> recycle
+      end
     end
   end
 

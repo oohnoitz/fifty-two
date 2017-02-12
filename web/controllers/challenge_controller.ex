@@ -3,17 +3,24 @@ defmodule FiftyTwo.ChallengeController do
 
   alias FiftyTwo.Challenge
 
-  def index(conn, _params) do
+  plug :load_and_authorize_resource, model: Challenge, except: [:show, :index]
+
+  def action(conn, _) do
+    apply(__MODULE__, action_name(conn), [conn, conn.params, conn.assigns.current_user])
+  end
+
+  def index(conn, _params, _user) do
     challenges = Repo.all(Challenge)
     render(conn, "index.html", challenges: challenges)
   end
 
-  def new(conn, _params) do
+  def new(conn, _params, _user) do
     changeset = Challenge.changeset(%Challenge{})
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"challenge" => challenge_params}) do
+  def create(conn, %{"challenge" => challenge_params}, user) do
+    challenge_params = Map.put(challenge_params, "user_id", user.id)
     changeset = Challenge.changeset(%Challenge{}, challenge_params)
 
     case Repo.insert(changeset) do
@@ -26,18 +33,20 @@ defmodule FiftyTwo.ChallengeController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _user) do
     challenge = Repo.get!(Challenge, id)
     render(conn, "show.html", challenge: challenge)
   end
 
-  def edit(conn, %{"id" => id}) do
+  def edit(conn, %{"id" => id}, _user) do
     challenge = Repo.get!(Challenge, id)
     changeset = Challenge.changeset(challenge)
     render(conn, "edit.html", challenge: challenge, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "challenge" => challenge_params}) do
+  def update(conn, %{"id" => id, "challenge" => challenge_params}, _user) do
+    challenge_params = Map.delete(challenge_params, "user_id")
+
     challenge = Repo.get!(Challenge, id)
     changeset = Challenge.changeset(challenge, challenge_params)
 
@@ -51,7 +60,7 @@ defmodule FiftyTwo.ChallengeController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _user) do
     challenge = Repo.get!(Challenge, id)
 
     # Here we use delete! (with a bang) because we expect

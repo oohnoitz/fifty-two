@@ -36,6 +36,8 @@ defmodule FiftyTwo.Web do
 
       import FiftyTwo.Router.Helpers
       import FiftyTwo.Gettext
+
+      import Canary.Plugs
     end
   end
 
