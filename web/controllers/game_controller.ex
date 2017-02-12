@@ -3,7 +3,7 @@ defmodule FiftyTwo.GameController do
 
   alias FiftyTwo.Game
 
-  plug :load_and_authorize_resource, model: Game, preload: [:challenge], except: [:show, :index]
+  plug :load_and_authorize_resource, model: Game, preload: [:challenge], except: [:index]
 
   def index(conn, _params) do
     games = Repo.all(Game)

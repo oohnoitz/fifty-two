@@ -3,7 +3,7 @@ defmodule FiftyTwo.UserController do
 
   alias FiftyTwo.User
 
-  plug :load_and_authorize_resource, model: User, only: [:edit, :update, :delete]
+  plug :load_and_authorize_resource, model: User, except: [:index]
 
   def index(conn, _params) do
     users = Repo.all(User)

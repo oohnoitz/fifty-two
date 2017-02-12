@@ -3,7 +3,7 @@ defmodule FiftyTwo.ChallengeController do
 
   alias FiftyTwo.Challenge
 
-  plug :load_and_authorize_resource, model: Challenge, except: [:show, :index]
+  plug :load_and_authorize_resource, model: Challenge, except: [:index]
 
   def action(conn, _) do
     apply(__MODULE__, action_name(conn), [conn, conn.params, conn.assigns.current_user])
