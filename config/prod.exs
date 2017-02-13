@@ -13,11 +13,18 @@ use Mix.Config
 # which you typically run after static files are built.
 config :fifty_two, FiftyTwo.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "example.com", port: 80],
+  url: [host: System.get_env("HOST"), port: System.get_env("PORT")],
   cache_static_manifest: "priv/static/manifest.json"
 
 # Do not print debug messages in production
 config :logger, level: :info
+
+# Database
+config :fifty_two, FiftyTwo.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  ssl: System.get_env("DATABASE_SSL") == "true"
 
 # ## SSL Support
 #

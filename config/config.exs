@@ -12,7 +12,8 @@ config :fifty_two,
 # Configures the endpoint
 config :fifty_two, FiftyTwo.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "3glIkswhLn2QDLr4L0vnU7yUjiDQuRmgGkLUmS6S6n1ewyhpbTl1vXrVszuMpCE+",
+  force_ssl: System.get_env("FORCE_SSL") == "true",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: FiftyTwo.ErrorView, accepts: ~w(html json)],
   pubsub: [name: FiftyTwo.PubSub,
            adapter: Phoenix.PubSub.PG2]
@@ -27,7 +28,7 @@ config :guardian, Guardian,
   ttl: {30, :days},
   allowed_drift: 2000,
   verify_issuer: true,
-  secret_key: System.get_env("SECRET_KEY") || "SECRET_KEY",
+  secret_key: System.get_env("SECRET_KEY_PASS"),
   serializer: FiftyTwo.Serializer.Guardian
 
 config :canary,

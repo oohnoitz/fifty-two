@@ -1,5 +1,6 @@
 machine:
   environment:
+    DATABASE_URL: postgres://ubuntu:@127.0.0.1:5432/circle_test
     PATH: "$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
     MIX_ENV: test
 
@@ -13,7 +14,6 @@ dependencies:
     - asdf plugin-add erlang https://github.com/asdf-vm/asdf-erlang.git || true
     - asdf plugin-add elixir https://github.com/asdf-vm/asdf-elixir.git || true
     - asdf install
-    - mv config/test.secret-ci.exs config/test.secret.exs
     - mix local.hex --force
     - mix local.rebar --force
   override:

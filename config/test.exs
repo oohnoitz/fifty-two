@@ -6,6 +6,13 @@ config :fifty_two, FiftyTwo.Endpoint,
   http: [port: 4001],
   server: false
 
+config :fifty_two, FiftyTwo.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  pool: Ecto.Adapters.SQL.Sandbox,
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  ssl: System.get_env("DATABASE_SSL") == "true"
+
 # Print only warnings and errors during test
 config :logger, level: :warn
 
@@ -17,7 +24,3 @@ config :comeonin, :pbkdf2_rounds, 1
 config :junit_formatter,
   report_file: "results.xml",
   print_report_file: true
-
-# Import the config/test.secret.exs which is used for
-# specifying credentials.
-import_config "test.secret.exs"
