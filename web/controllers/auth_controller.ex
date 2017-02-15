@@ -3,6 +3,8 @@ defmodule FiftyTwo.AuthController do
 
   alias FiftyTwo.{Auth, User}
 
+  plug :scrub_params, "user" when action in [:create]
+
   def create(conn, %{"user" => params}) do
     case Auth.authenticate(params) do
       {:ok, user} ->

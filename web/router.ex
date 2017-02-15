@@ -39,5 +39,9 @@ defmodule FiftyTwo.Router do
 
   scope "/api", FiftyTwo do
     pipe_through [:api]
+
+    scope "/v1" do
+      resources "/auth", Api.AuthController, only: [:create, :delete]
+    end
   end
 end
