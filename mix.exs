@@ -20,7 +20,7 @@ defmodule FiftyTwo.Mixfile do
   def application do
     [mod: {FiftyTwo, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :comeonin]]
+                    :phoenix_ecto, :postgrex, :comeonin, :corsica]]
   end
 
   # Specifies which paths to compile per environment.
@@ -43,7 +43,8 @@ defmodule FiftyTwo.Mixfile do
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 3.0"},
      {:guardian, "~> 0.14"},
-     {:canary, "~> 1.1"}]
+     {:canary, "~> 1.1"},
+     {:corsica, "~> 0.5"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
