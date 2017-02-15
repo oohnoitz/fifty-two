@@ -26,16 +26,17 @@ defmodule FiftyTwo.Api.AuthController do
   end
 
   def delete(conn, _params) do
-    response = case Guardian.Plug.claims(conn) do
+    {status_code, response} = case Guardian.Plug.claims(conn) do
       {:ok, claims} ->
         jwt = Guardian.Plug.current_token(conn)
         Guardian.revoke!(jwt, claims)
-        %{success: true, message: "Logged Out!"}
+        {200, %{success: true, message: "Logged Out!"}}
       {:error, :no_session} ->
-        %{success: false, message: "Logged Out!"}
+        {401, %{success: false, message: "Logged Out!"}}
     end
 
     conn
+    |> put_status(status_code)
     |>render("logout.json", response)
   end
 end

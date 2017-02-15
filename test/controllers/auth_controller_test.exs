@@ -1,4 +1,4 @@
-defmodule FiftyTwo.AuthControllerTeset do
+defmodule FiftyTwo.AuthControllerTest do
   use FiftyTwo.ConnCase
 
   alias FiftyTwo.User
