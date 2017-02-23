@@ -1,6 +1,6 @@
 defmodule FiftyTwo.ControllerHelper do
   use Phoenix.Controller
-  import Plug.Conn, only: [put_status: 2, halt: 1]
+  import Plug.Conn, only: [put_resp_header: 3, put_status: 2, halt: 1]
 
   def handle_not_found(conn) do
     case get_format(conn) do
@@ -11,7 +11,8 @@ defmodule FiftyTwo.ControllerHelper do
       "json" ->
         conn
         |> put_status(404)
-        |> json(%{error: "Not Found"})
+        |> put_resp_header("content-type", "application/json")
+        |> text("")
         |> halt
     end
   end
@@ -25,7 +26,8 @@ defmodule FiftyTwo.ControllerHelper do
       "json" ->
         conn
         |> put_status(401)
-        |> json(%{error: "Unauthorized"})
+        |> put_resp_header("content-type", "application/json")
+        |> text("")
     end
     |> halt
   end
