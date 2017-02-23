@@ -38,6 +38,13 @@ defmodule FiftyTwo.ConnCase do
         |> send_resp(200, "Flush Session!")
         |> recycle
       end
+
+      def api_login(user, token \\ :token, opts \\ []) do
+        {:ok, jwt, _claims} = Guardian.encode_and_sign(user)
+
+        Phoenix.ConnTest.build_conn()
+        |> put_req_header("authorization", "Bearer #{jwt}")
+      end
     end
   end
 
