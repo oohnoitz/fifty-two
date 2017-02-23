@@ -29,7 +29,7 @@ defmodule FiftyTwo.Api.GameController do
       {:error, changeset} ->
         conn
         |> put_status(409)
-        |> render("error.json", changeset: changeset)
+        |> render(FiftyTwo.Api.ErrorView, "changeset.json", changeset: changeset)
     end
   end
 
@@ -53,7 +53,7 @@ defmodule FiftyTwo.Api.GameController do
       {:error, changeset} ->
         conn
         |> put_status(422)
-        |> render("error.json", changeset: changeset)
+        |> render(FiftyTwo.Api.ErrorView, "changeset.json", changeset: changeset)
     end
   end
 

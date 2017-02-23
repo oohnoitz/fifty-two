@@ -1,7 +1,17 @@
 defmodule FiftyTwo.Api.GameView do
   use FiftyTwo.Web, :view
 
-  def root_json(data) do
+  def render("index.json", %{games: games}) do
+    %{
+      games: Enum.map(games, &root_json/1)
+    }
+  end
+
+  def render("show.json", %{game: game}) do
+    root_json(game)
+  end
+
+  defp root_json(data) do
     %{
       title: data.title,
       appid: data.appid,
@@ -14,7 +24,7 @@ defmodule FiftyTwo.Api.GameView do
     }
   end
 
-  def challenge_json(challenge) do
+  defp challenge_json(challenge) do
     %{
       id: challenge.id,
       name: challenge.name,
@@ -23,38 +33,10 @@ defmodule FiftyTwo.Api.GameView do
     }
   end
 
-  def user_json(user) do
+  defp user_json(user) do
     %{
       id: user.id,
       username: user.username,
     }
-  end
-
-  def render("index.json", %{games: games}) do
-    %{
-      games: Enum.map(games, &root_json/1)
-    }
-  end
-
-  def render("show.json", %{game: game}) do
-    root_json(game)
-  end
-
-  def render("error.json", %{changeset: changeset}) do
-    errors = Enum.map(changeset.errors, fn {field, error} ->
-      %{
-        source: %{pointer: "/data/attributes/#{field}"},
-        detail: render_detail(error)
-      }
-    end)
-
-    %{errors: errors}
-  end
-
-
-  def render_detail({message, values}) do
-    Enum.reduce(values, message, fn {key, val}, acc ->
-      String.replace(acc, "%{#{key}}", to_string(val))
-    end)
   end
 end
