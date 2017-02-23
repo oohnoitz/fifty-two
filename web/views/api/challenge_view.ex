@@ -8,7 +8,9 @@ defmodule FiftyTwo.Api.ChallengeView do
   end
 
   def render("show.json", %{challenge: challenge}) do
-    root_json(challenge)
+    %{
+      challenge: root_json(challenge)
+    }
   end
 
   defp root_json(data) do

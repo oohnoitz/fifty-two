@@ -12,8 +12,7 @@ defmodule FiftyTwo.Api.ErrorView do
     %{errors: errors}
   end
 
-
-  def render_detail({message, values}) do
+  defp render_detail({message, values}) do
     Enum.reduce(values, message, fn {key, val}, acc ->
       String.replace(acc, "%{#{key}}", to_string(val))
     end)

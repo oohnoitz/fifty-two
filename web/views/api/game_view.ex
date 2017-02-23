@@ -8,7 +8,9 @@ defmodule FiftyTwo.Api.GameView do
   end
 
   def render("show.json", %{game: game}) do
-    root_json(game)
+    %{
+      game: root_json(game)
+    }
   end
 
   defp root_json(data) do
