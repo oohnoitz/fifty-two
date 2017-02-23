@@ -10,12 +10,12 @@ defmodule FiftyTwo.Api.AuthControllerTest do
   end
 
   test "returns response with valid credentials" do
-    conn = post build_conn(), api_v1_auth_path(build_conn(), :create), user: %{"username" => "username", "password" => "password"}
+    conn = post build_conn(), api_v1_auth_path(build_conn(), :create), %{"username" => "username", "password" => "password"}
     assert json_response(conn, 200)
   end
 
   test "returns error with invalid credentials" do
-    conn = post build_conn(), api_v1_auth_path(build_conn(), :create), user: %{"username" => "password", "password" => "username"}
+    conn = post build_conn(), api_v1_auth_path(build_conn(), :create), %{"username" => "password", "password" => "username"}
     assert json_response(conn, 401)
   end
 
