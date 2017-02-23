@@ -11,20 +11,21 @@ defmodule FiftyTwo.Api.ChallengeController do
 
   def index(conn, _params, _user) do
     challenges = Challenge
-      |> preload([user, games], [:user, :games])
+      |> preload([:user, :games])
       |> Repo.all
     render(conn, "index.json", challenges: challenges)
   end
 
-  def create(conn, challenge_params, user) do
+  def create(conn, %{"challenge" => challenge_params}, user) do
     challenge_params = Map.put(challenge_params, "user_id", user.id)
     changeset = Challenge.changeset(%Challenge{}, challenge_params)
 
     case Repo.insert(changeset) do
-      {:ok, _} ->
+      {:ok, challenge} ->
         conn
         |> put_status(201)
         |> put_resp_header("content-type", "application/json")
+        |> put_resp_header("location", api_v1_challenge_url(conn, :show, challenge))
         |> text("")
       {:error, changeset} ->
         conn
