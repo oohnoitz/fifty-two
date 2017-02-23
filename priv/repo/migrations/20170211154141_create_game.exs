@@ -3,7 +3,7 @@ defmodule FiftyTwo.Repo.Migrations.CreateGame do
 
   def change do
     create table(:games) do
-      add :challenge_id, references(:challenges)
+      add :challenge_id, references(:challenges, on_delete: :delete_all)
       add :title, :string
       add :appid, :integer
       add :image, :string
