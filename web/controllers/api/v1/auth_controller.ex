@@ -3,9 +3,10 @@ defmodule FiftyTwo.Api.AuthController do
 
   alias FiftyTwo.{Auth, User}
 
-  plug :scrub_params, "user" when action in [:create]
+  plug :scrub_params, "username" when action in [:create]
+  plug :scrub_params, "password" when action in [:create]
 
-  def create(conn, %{"user" => params}) do
+  def create(conn, params) do
     case Auth.authenticate(params) do
       {:ok, user} ->
         api_conn = Guardian.Plug.api_sign_in(conn, user)
@@ -17,7 +18,7 @@ defmodule FiftyTwo.Api.AuthController do
         api_conn
         |> put_resp_header("authorization", "Bearer #{jwt}")
         |> put_resp_header("x-expires", "#{exp}")
-        |> render("login.json", user: user, jwt: jwt, exp: exp)
+        |> render("login.json", user: user, jwt: jwt)
       {:error, _} ->
         conn
         |> put_status(401)
@@ -37,6 +38,6 @@ defmodule FiftyTwo.Api.AuthController do
 
     conn
     |> put_status(status_code)
-    |>render("logout.json", response)
+    |> render("logout.json", response)
   end
 end

@@ -8,13 +8,12 @@ defmodule FiftyTwo.Api.AuthView do
     }
   end
 
-  def render("login.json", %{user: user, jwt: jwt, exp: exp}) do
+  def render("login.json", %{user: user, jwt: jwt}) do
     %{
       success: true,
       data: %{
         user: user,
-        jwt: jwt,
-        exp: exp,
+        auth: jwt,
       }
     }
   end
