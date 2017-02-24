@@ -34,7 +34,6 @@ defmodule FiftyTwo.Router do
 
     resources "/challenges", ChallengeController
     resources "/games", GameController
-    resources "/users", UserController
   end
 
   scope "/api", FiftyTwo do
@@ -44,6 +43,7 @@ defmodule FiftyTwo.Router do
       resources "/auth", Api.AuthController, only: [:create, :delete]
       resources "/challenges", Api.ChallengeController, except: [:new, :edit]
       resources "/games", Api.GameController, except: [:new, :edit]
+      resources "/users", Api.UserController, except: [:new, :edit]
     end
   end
 end

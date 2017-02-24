@@ -1,7 +1,7 @@
 defmodule FiftyTwo.Api.ChallengeControllerTest do
   use FiftyTwo.ConnCase
 
-  alias FiftyTwo.{User, Challenge}
+  alias FiftyTwo.{User, Game, Challenge}
 
   @valid_attrs %{name: "name", year: 2017}
   @invalid_attrs %{}
@@ -17,11 +17,31 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     test "GET /api/v1/challenges/:id", %{conn: conn} do
       user = Repo.insert! %User{username: "username"}
       challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
+      game = Repo.insert! %Game{challenge_id: challenge.id}
 
       conn = conn
       |> get(api_v1_challenge_path(conn, :show, challenge))
 
-      assert json_response(conn, 200) == %{"challenge" => %{"id" => challenge.id, "name" => "name", "year" => 2017, "games" => [], "user" => %{"id" => user.id, "username" => user.username}}}
+      assert json_response(conn, 200) == %{
+        "challenge" => %{
+          "id" => challenge.id,
+          "name" => "name",
+          "year" => 2017,
+          "games" => [
+            %{
+              "id" => game.id,
+              "title" => nil,
+              "appid" => nil,
+              "image" => nil,
+              "platform" => nil,
+              "date_started" => nil,
+              "date_completed" => nil,
+              "playtime" => nil,
+            },
+          ],
+          "user" => %{"id" => user.id, "username" => user.username}
+          },
+        }
     end
 
     test "POST /api/v1/challenges with valid data", %{conn: conn} do

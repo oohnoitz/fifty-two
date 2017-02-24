@@ -1,7 +1,7 @@
 defmodule FiftyTwo.Api.AuthController do
   use FiftyTwo.Web, :controller
 
-  alias FiftyTwo.{Auth, User}
+  alias FiftyTwo.Auth
 
   plug :scrub_params, "username" when action in [:create]
   plug :scrub_params, "password" when action in [:create]
