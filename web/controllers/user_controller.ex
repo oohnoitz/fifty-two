@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.UserController do
+defmodule FiftyTwo.UserController do
   use FiftyTwo.Web, :controller
 
   alias FiftyTwo.User
@@ -18,21 +18,21 @@ defmodule FiftyTwo.Api.UserController do
         conn
         |> put_status(201)
         |> put_resp_header("content-type", "application/json")
-        |> put_resp_header("location", api_v1_user_url(conn, :show, user))
+        |> put_resp_header("location", api_user_url(conn, :show, user))
         |> text("")
       {:error, changeset} ->
         conn
         |> put_status(409)
-        |> render(FiftyTwo.Api.ErrorView, "changeset.json", changeset: changeset)
+        |> render(FiftyTwo.ErrorView, "changeset.json", changeset: changeset)
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => _id}) do
     user = conn.assigns.user
     render(conn, "show.json", user: user)
   end
 
-  def update(conn, %{"id" => id, "user" => user_params}) do
+  def update(conn, %{"id" => _id, "user" => user_params}) do
     user = conn.assigns.user
     changeset = User.changeset(user, user_params)
 
@@ -45,11 +45,11 @@ defmodule FiftyTwo.Api.UserController do
       {:error, changeset} ->
         conn
         |> put_status(422)
-        |> render(FiftyTwo.Api.ErrorView, "changeset.json", changeset: changeset)
+        |> render(FiftyTwo.ErrorView, "changeset.json", changeset: changeset)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => _id}) do
     user = conn.assigns.user
     case Repo.delete(user) do
       {:ok, _} ->

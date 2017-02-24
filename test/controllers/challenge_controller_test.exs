@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.ChallengeControllerTest do
+defmodule FiftyTwo.ChallengeControllerTest do
   use FiftyTwo.ConnCase
 
   import FiftyTwo.Factory
@@ -11,7 +11,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
   describe "as anon" do
     test "GET /api/v1/challenges", %{conn: conn} do
       conn = conn
-      |> get(api_v1_challenge_path(conn, :index))
+      |> get(api_challenge_path(conn, :index))
 
       assert json_response(conn, 200) == %{"challenges" => []}
     end
@@ -22,7 +22,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       game = insert(:game, challenge: challenge)
 
       conn = conn
-      |> get(api_v1_challenge_path(conn, :show, challenge))
+      |> get(api_challenge_path(conn, :show, challenge))
 
       assert json_response(conn, 200) == %{
         "challenge" => %{
@@ -48,14 +48,14 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
 
     test "GET /api/v1/challenges/:id 404", %{conn: conn} do
       conn = conn
-      |> get(api_v1_challenge_path(conn, :show, %Challenge{id: 123456789}))
+      |> get(api_challenge_path(conn, :show, %Challenge{id: 123456789}))
 
       assert response(conn, 404) == ""
     end
 
     test "POST /api/v1/challenges with valid data", %{conn: conn} do
       conn = conn
-      |> post(api_v1_challenge_path(conn, :create), challenge: @valid_attrs)
+      |> post(api_challenge_path(conn, :create), challenge: @valid_attrs)
 
       refute Repo.get_by(Challenge, @valid_attrs)
       assert response(conn, 401) == ""
@@ -63,7 +63,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
 
     test "POST /api/v1/challenges with invalid data", %{conn: conn} do
       conn = conn
-      |> post(api_v1_challenge_path(conn, :create), challenge: @invalid_attrs)
+      |> post(api_challenge_path(conn, :create), challenge: @invalid_attrs)
 
       assert response(conn, 401) == ""
     end
@@ -72,7 +72,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       challenge = insert(:challenge)
 
       conn = conn
-      |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @valid_attrs)
+      |> put(api_challenge_path(conn, :update, challenge), challenge: @valid_attrs)
 
       refute Repo.get_by(Challenge, @valid_attrs)
       assert response(conn, 401) == ""
@@ -82,7 +82,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       challenge = insert(:challenge)
 
       conn = conn
-      |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @invalid_attrs)
+      |> put(api_challenge_path(conn, :update, challenge), challenge: @invalid_attrs)
 
       assert response(conn, 401) == ""
     end
@@ -91,7 +91,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       challenge = insert(:challenge)
 
       conn = conn
-      |> delete(api_v1_challenge_path(conn, :delete, challenge))
+      |> delete(api_challenge_path(conn, :delete, challenge))
 
       assert Repo.get(Challenge, challenge.id)
       assert response(conn, 401) == ""
@@ -108,7 +108,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
 
     test "GET /api/v1/challenges", %{conn: conn} do
       conn = conn
-      |> get(api_v1_challenge_path(conn, :index))
+      |> get(api_challenge_path(conn, :index))
 
       assert json_response(conn, 200) == %{"challenges" => []}
     end
@@ -117,7 +117,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       challenge = insert(:challenge, user: user)
 
       conn = conn
-      |> get(api_v1_challenge_path(conn, :show, challenge))
+      |> get(api_challenge_path(conn, :show, challenge))
 
       assert json_response(conn, 200) == %{
         "challenge" => %{
@@ -132,18 +132,18 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
 
     test "POST /api/v1/challenges with valid data", %{conn: conn} do
       conn = conn
-      |> post(api_v1_challenge_path(conn, :create), challenge: @valid_attrs)
+      |> post(api_challenge_path(conn, :create), challenge: @valid_attrs)
 
       challenge = Repo.get_by(Challenge, @valid_attrs)
 
       assert challenge
-      assert redirected_to(conn, 201) == api_v1_challenge_url(conn, :show, challenge)
+      assert redirected_to(conn, 201) == api_challenge_url(conn, :show, challenge)
       assert response(conn, 201) == ""
     end
 
     test "POST /api/v1/challenges with invalid data", %{conn: conn} do
       conn = conn
-      |> post(api_v1_challenge_path(conn, :create), challenge: @invalid_attrs)
+      |> post(api_challenge_path(conn, :create), challenge: @invalid_attrs)
 
       assert json_response(conn, 409) == %{
         "errors" => [
@@ -157,7 +157,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       challenge = insert(:challenge, user: user)
 
       conn = conn
-      |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @valid_attrs)
+      |> put(api_challenge_path(conn, :update, challenge), challenge: @valid_attrs)
 
       assert Repo.get_by(Challenge, @valid_attrs)
       assert response(conn, 204) == ""
@@ -167,7 +167,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       challenge = insert(:challenge, user: user)
 
       conn = conn
-      |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @invalid_attrs)
+      |> put(api_challenge_path(conn, :update, challenge), challenge: @invalid_attrs)
 
       assert json_response(conn, 422) == %{
         "errors" => [
@@ -181,7 +181,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       challenge = insert(:challenge, user: user)
 
       conn = conn
-      |> delete(api_v1_challenge_path(conn, :delete, challenge))
+      |> delete(api_challenge_path(conn, :delete, challenge))
 
       refute Repo.get(Challenge, challenge.id)
       assert response(conn, 204) == ""
@@ -200,7 +200,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       challenge = insert(:challenge, user: user)
 
       conn = conn
-      |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @valid_attrs)
+      |> put(api_challenge_path(conn, :update, challenge), challenge: @valid_attrs)
 
       refute Repo.get_by(Challenge, @valid_attrs)
       assert response(conn, 401) == ""
@@ -210,7 +210,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       challenge = insert(:challenge, user: user)
 
       conn = conn
-      |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @invalid_attrs)
+      |> put(api_challenge_path(conn, :update, challenge), challenge: @invalid_attrs)
 
       assert response(conn, 401) == ""
     end
@@ -219,7 +219,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       challenge = insert(:challenge, user: user)
 
       conn = conn
-      |> delete(api_v1_challenge_path(conn, :delete, challenge))
+      |> delete(api_challenge_path(conn, :delete, challenge))
 
       assert Repo.get(Challenge, challenge.id)
       assert response(conn, 401) == ""

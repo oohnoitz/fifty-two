@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.ChallengeController do
+defmodule FiftyTwo.ChallengeController do
   use FiftyTwo.Web, :controller
 
   alias FiftyTwo.Challenge
@@ -25,21 +25,21 @@ defmodule FiftyTwo.Api.ChallengeController do
         conn
         |> put_status(201)
         |> put_resp_header("content-type", "application/json")
-        |> put_resp_header("location", api_v1_challenge_url(conn, :show, challenge))
+        |> put_resp_header("location", api_challenge_url(conn, :show, challenge))
         |> text("")
       {:error, changeset} ->
         conn
         |> put_status(409)
-        |> render(FiftyTwo.Api.ErrorView, "changeset.json", changeset: changeset)
+        |> render(FiftyTwo.ErrorView, "changeset.json", changeset: changeset)
     end
   end
 
-  def show(conn, %{"id" => id}, _user) do
+  def show(conn, %{"id" => _id}, _user) do
     challenge = conn.assigns.challenge
     render(conn, "show.json", challenge: challenge)
   end
 
-  def update(conn, %{"id" => id, "challenge" => challenge_params}, _user) do
+  def update(conn, %{"id" => _id, "challenge" => challenge_params}, _user) do
     challenge_params = Map.delete(challenge_params, "user_id")
 
     challenge = conn.assigns.challenge
@@ -54,11 +54,11 @@ defmodule FiftyTwo.Api.ChallengeController do
       {:error, changeset} ->
         conn
         |> put_status(422)
-        |> render(FiftyTwo.Api.ErrorView, "changeset.json", changeset: changeset)
+        |> render(FiftyTwo.ErrorView, "changeset.json", changeset: changeset)
     end
   end
 
-  def delete(conn, %{"id" => id}, _user) do
+  def delete(conn, %{"id" => _id}, _user) do
     challenge = conn.assigns.challenge
     case Repo.delete(challenge) do
       {:ok, _} ->

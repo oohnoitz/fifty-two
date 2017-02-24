@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.AuthControllerTest do
+defmodule FiftyTwo.AuthControllerTest do
   use FiftyTwo.ConnCase
 
   import FiftyTwo.Factory
@@ -14,14 +14,14 @@ defmodule FiftyTwo.Api.AuthControllerTest do
 
   test "returns response with valid credentials", %{conn: conn, user: user} do
     conn = conn
-    |> post(api_v1_auth_path(conn, :create), %{"username" => user.username, "password" => "password"})
+    |> post(api_auth_path(conn, :create), %{"username" => user.username, "password" => "password"})
 
     assert json_response(conn, 200)
   end
 
   test "returns error with invalid credentials", %{conn: conn, user: user} do
     conn = conn
-    |> post(api_v1_auth_path(conn, :create), %{"username" => user.password, "password" => "username"})
+    |> post(api_auth_path(conn, :create), %{"username" => user.password, "password" => "username"})
 
     assert json_response(conn, 401)
   end
@@ -31,14 +31,14 @@ defmodule FiftyTwo.Api.AuthControllerTest do
 
     conn = conn
     |> put_req_header("authorization", "Bearer #{jwt}")
-    |> delete(api_v1_auth_path(conn, :delete, user))
+    |> delete(api_auth_path(conn, :delete, user))
 
     assert json_response(conn, 200)
   end
 
   test "returns error with invalid token", %{conn: conn, user: user} do
     conn = conn
-    |> delete(api_v1_auth_path(conn, :delete, user))
+    |> delete(api_auth_path(conn, :delete, user))
 
     assert json_response(conn, 401)
   end

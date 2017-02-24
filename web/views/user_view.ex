@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.UserView do
+defmodule FiftyTwo.UserView do
   use FiftyTwo.Web, :view
 
   def render("index.json", %{users: users}) do

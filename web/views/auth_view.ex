@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.AuthView do
+defmodule FiftyTwo.AuthView do
   use FiftyTwo.Web, :view
 
   def render("error.json", %{success: success, message: message}) do

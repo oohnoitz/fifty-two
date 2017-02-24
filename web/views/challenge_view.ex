@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.ChallengeView do
+defmodule FiftyTwo.ChallengeView do
   use FiftyTwo.Web, :view
 
   def render("index.json", %{challenges: challenges}) do

@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.GameView do
+defmodule FiftyTwo.GameView do
   use FiftyTwo.Web, :view
 
   def render("index.json", %{games: games}) do

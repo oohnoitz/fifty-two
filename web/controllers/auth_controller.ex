@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.AuthController do
+defmodule FiftyTwo.AuthController do
   use FiftyTwo.Web, :controller
 
   alias FiftyTwo.Auth

@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.GameControllerTest do
+defmodule FiftyTwo.GameControllerTest do
   use FiftyTwo.ConnCase
 
   import FiftyTwo.Factory
@@ -11,7 +11,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
   describe "as anon" do
     test "GET /api/v1/games", %{conn: conn} do
       conn = conn
-      |> get(api_v1_game_path(conn, :index))
+      |> get(api_game_path(conn, :index))
 
       assert json_response(conn, 200) == %{"games" => []}
     end
@@ -22,7 +22,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game, challenge: challenge)
 
       conn = conn
-      |> get(api_v1_game_path(conn, :show, game))
+      |> get(api_game_path(conn, :show, game))
 
       assert json_response(conn, 200) == %{
         "game" => %{
@@ -46,7 +46,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
 
     test "POST /api/v1/games with valid data", %{conn: conn} do
       conn = conn
-      |> post(api_v1_game_path(conn, :create), game: @valid_attrs)
+      |> post(api_game_path(conn, :create), game: @valid_attrs)
 
       refute Repo.get_by(Game, @valid_attrs)
       assert response(conn, 401) == ""
@@ -54,7 +54,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
 
     test "POST /api/v1/games with invalid data", %{conn: conn} do
       conn = conn
-      |> post(api_v1_game_path(conn, :create), game: @invalid_attrs)
+      |> post(api_game_path(conn, :create), game: @invalid_attrs)
 
       assert response(conn, 401) == ""
     end
@@ -63,7 +63,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game)
 
       conn = conn
-      |> put(api_v1_game_path(conn, :update, game), game: @valid_attrs)
+      |> put(api_game_path(conn, :update, game), game: @valid_attrs)
 
       refute Repo.get_by(Game, @valid_attrs)
       assert response(conn, 401) == ""
@@ -73,7 +73,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game)
 
       conn = conn
-      |> put(api_v1_game_path(conn, :update, game), game: @invalid_attrs)
+      |> put(api_game_path(conn, :update, game), game: @invalid_attrs)
 
       assert response(conn, 401) == ""
     end
@@ -82,7 +82,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game)
 
       conn = conn
-      |> delete(api_v1_game_path(conn, :delete, game))
+      |> delete(api_game_path(conn, :delete, game))
 
       assert Repo.get(Game, game.id)
       assert response(conn, 401) == ""
@@ -99,7 +99,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
 
     test "GET /api/v1/games", %{conn: conn} do
       conn = conn
-      |> get(api_v1_game_path(conn, :index))
+      |> get(api_game_path(conn, :index))
 
       assert json_response(conn, 200) == %{"games" => []}
     end
@@ -109,7 +109,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game, challenge: challenge)
 
       conn = conn
-      |> get(api_v1_game_path(conn, :show, game))
+      |> get(api_game_path(conn, :show, game))
 
       assert json_response(conn, 200) == %{
         "game" => %{
@@ -135,18 +135,18 @@ defmodule FiftyTwo.Api.GameControllerTest do
       challenge = insert(:challenge, user: user)
 
       conn = conn
-      |> post(api_v1_game_path(conn, :create), game: Map.put(@valid_attrs, "challenge_id", challenge.id))
+      |> post(api_game_path(conn, :create), game: Map.put(@valid_attrs, "challenge_id", challenge.id))
 
       game = Repo.get_by(Game, @valid_attrs)
 
       assert game
-      assert redirected_to(conn, 201) == api_v1_game_url(conn, :show, game)
+      assert redirected_to(conn, 201) == api_game_url(conn, :show, game)
       assert response(conn, 201) == ""
     end
 
     test "POST /api/v1/games with invalid data", %{conn: conn} do
       conn = conn
-      |> post(api_v1_game_path(conn, :create), game: @invalid_attrs)
+      |> post(api_game_path(conn, :create), game: @invalid_attrs)
 
       assert json_response(conn, 409) == %{
         "errors" => [
@@ -162,7 +162,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game, challenge: challenge)
 
       conn = conn
-      |> put(api_v1_game_path(conn, :update, game), game: @valid_attrs)
+      |> put(api_game_path(conn, :update, game), game: @valid_attrs)
 
       assert Repo.get_by(Game, @valid_attrs)
       assert response(conn, 204) == ""
@@ -173,7 +173,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game, challenge: challenge)
 
       conn = conn
-      |> put(api_v1_game_path(conn, :update, game), game: @invalid_attrs)
+      |> put(api_game_path(conn, :update, game), game: @invalid_attrs)
 
       assert json_response(conn, 422) == %{
         "errors" => [
@@ -188,7 +188,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game, challenge: challenge)
 
       conn = conn
-      |> delete(api_v1_game_path(conn, :delete, game))
+      |> delete(api_game_path(conn, :delete, game))
 
       refute Repo.get(Game, game.id)
       assert response(conn, 204) == ""
@@ -208,7 +208,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game, challenge: challenge)
 
       conn = conn
-      |> put(api_v1_game_path(conn, :update, game), game: @valid_attrs)
+      |> put(api_game_path(conn, :update, game), game: @valid_attrs)
 
       refute Repo.get_by(Game, @valid_attrs)
       assert response(conn, 401) == ""
@@ -219,7 +219,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game, challenge: challenge)
 
       conn = conn
-      |> put(api_v1_game_path(conn, :update, game), game: @invalid_attrs)
+      |> put(api_game_path(conn, :update, game), game: @invalid_attrs)
 
       assert response(conn, 401) == ""
     end
@@ -229,7 +229,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
       game = insert(:game, challenge: challenge)
 
       conn = conn
-      |> delete(api_v1_game_path(conn, :delete, game))
+      |> delete(api_game_path(conn, :delete, game))
 
       assert Repo.get(Game, game.id)
       assert response(conn, 401) == ""

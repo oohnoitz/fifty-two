@@ -1,4 +1,4 @@
-defmodule FiftyTwo.Api.GameController do
+defmodule FiftyTwo.GameController do
   use FiftyTwo.Web, :controller
 
   alias FiftyTwo.Game
@@ -24,21 +24,21 @@ defmodule FiftyTwo.Api.GameController do
         conn
         |> put_status(201)
         |> put_resp_header("content-type", "application/json")
-        |> put_resp_header("location", api_v1_game_url(conn, :show, game))
+        |> put_resp_header("location", api_game_url(conn, :show, game))
         |> text("")
       {:error, changeset} ->
         conn
         |> put_status(409)
-        |> render(FiftyTwo.Api.ErrorView, "changeset.json", changeset: changeset)
+        |> render(FiftyTwo.ErrorView, "changeset.json", changeset: changeset)
     end
   end
 
-  def show(conn, %{"id" => id}, _user) do
+  def show(conn, %{"id" => _id}, _user) do
     game = conn.assigns.game
     render(conn, "show.json", game: game)
   end
 
-  def update(conn, %{"id" => id, "game" => game_params}, _user) do
+  def update(conn, %{"id" => _id, "game" => game_params}, _user) do
     game_params = Map.delete(game_params, "challenge_id")
 
     game = conn.assigns.game
@@ -53,11 +53,11 @@ defmodule FiftyTwo.Api.GameController do
       {:error, changeset} ->
         conn
         |> put_status(422)
-        |> render(FiftyTwo.Api.ErrorView, "changeset.json", changeset: changeset)
+        |> render(FiftyTwo.ErrorView, "changeset.json", changeset: changeset)
     end
   end
 
-  def delete(conn, %{"id" => id}, _user) do
+  def delete(conn, %{"id" => _id}, _user) do
     game = conn.assigns.game
     case Repo.delete(game) do
       {:ok, _} ->
