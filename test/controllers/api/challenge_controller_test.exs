@@ -111,7 +111,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       assert json_response(conn, 409) == %{
         "errors" => [
           %{"source" => %{"pointer" => "/data/attributes/name"}, "detail" => "can't be blank"},
-          %{"source" => %{"pointer" => "/data/attributes/year"}, "detail" => "can't be blank"}
+          %{"source" => %{"pointer" => "/data/attributes/year"}, "detail" => "can't be blank"},
         ]
       }
     end
@@ -135,7 +135,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       assert json_response(conn, 422) == %{
         "errors" => [
           %{"source" => %{"pointer" => "/data/attributes/name"}, "detail" => "can't be blank"},
-          %{"source" => %{"pointer" => "/data/attributes/year"}, "detail" => "can't be blank"}
+          %{"source" => %{"pointer" => "/data/attributes/year"}, "detail" => "can't be blank"},
         ]
       }
     end

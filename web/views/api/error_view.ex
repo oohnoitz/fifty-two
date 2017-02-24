@@ -5,7 +5,7 @@ defmodule FiftyTwo.Api.ErrorView do
     errors = Enum.map(changeset.errors, fn {field, error} ->
       %{
         source: %{pointer: "/data/attributes/#{field}"},
-        detail: render_detail(error)
+        detail: render_detail(error),
       }
     end)
 

@@ -3,7 +3,7 @@ defmodule FiftyTwo.Api.GameView do
 
   def render("index.json", %{games: games}) do
     %{
-      games: Enum.map(games, &root_json/1)
+      games: Enum.map(games, &root_json/1),
     }
   end
 
@@ -15,6 +15,7 @@ defmodule FiftyTwo.Api.GameView do
 
   defp root_json(data) do
     %{
+      id: data.id,
       title: data.title,
       appid: data.appid,
       image: data.image,
@@ -22,7 +23,7 @@ defmodule FiftyTwo.Api.GameView do
       date_started: data.date_started,
       date_completed: data.date_completed,
       playtime: data.playtime,
-      challenge: challenge_json(data.challenge)
+      challenge: challenge_json(data.challenge),
     }
   end
 
@@ -31,7 +32,7 @@ defmodule FiftyTwo.Api.GameView do
       id: challenge.id,
       name: challenge.name,
       year: challenge.year,
-      user: user_json(challenge.user)
+      user: user_json(challenge.user),
     }
   end
 

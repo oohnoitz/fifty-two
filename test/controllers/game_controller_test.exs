@@ -2,7 +2,7 @@ defmodule FiftyTwo.GameControllerTest do
   use FiftyTwo.ConnCase
 
   alias FiftyTwo.Game
-  @valid_attrs %{appid: 42, date_completed: %{day: 17, month: 4, year: 2010}, date_started: %{day: 17, month: 4, year: 2010}, image: "some content", platform: "some content", playtime: "120.5", title: "some content"}
+  @valid_attrs %{appid: 52, date_completed: %{day: 17, month: 4, year: 2010}, date_started: %{day: 17, month: 4, year: 2010}, image: "image", platform: "platform", playtime: "120.5", title: "title"}
   @invalid_attrs %{}
 
   describe "with anonymous" do

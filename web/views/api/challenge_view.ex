@@ -3,13 +3,13 @@ defmodule FiftyTwo.Api.ChallengeView do
 
   def render("index.json", %{challenges: challenges}) do
     %{
-      challenges: Enum.map(challenges, &root_json/1)
+      challenges: Enum.map(challenges, &root_json/1),
     }
   end
 
   def render("show.json", %{challenge: challenge}) do
     %{
-      challenge: root_json(challenge)
+      challenge: root_json(challenge),
     }
   end
 

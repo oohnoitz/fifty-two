@@ -65,11 +65,6 @@ defmodule FiftyTwo.Api.GameController do
         |> put_status(204)
         |> put_resp_header("content-type", "application/json")
         |> text("")
-      {:error, _} ->
-        conn
-        |> put_status(404)
-        |> put_resp_header("content-type", "application/json")
-        |> text("")
     end
   end
 end
