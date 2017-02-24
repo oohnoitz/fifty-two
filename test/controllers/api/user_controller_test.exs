@@ -98,8 +98,6 @@ defmodule FiftyTwo.Api.UserControllerTest do
     end
 
     test "GET /api/v1/users/:id", %{conn: conn, user: user} do
-      user = insert(:user)
-
       conn = conn
       |> get(api_v1_user_path(conn, :show, user))
 
@@ -173,8 +171,6 @@ defmodule FiftyTwo.Api.UserControllerTest do
     end
 
     test "PUT /api/v1/users/:id with valid data", %{conn: conn, user: user} do
-      user = insert(:user)
-
       conn = conn
       |> put(api_v1_user_path(conn, :update, user), user: @valid_attrs)
 
@@ -183,8 +179,6 @@ defmodule FiftyTwo.Api.UserControllerTest do
     end
 
     test "PUT /api/v1/users/:id with invalid data", %{conn: conn, user: user} do
-      user = insert(:user)
-
       conn = conn
       |> put(api_v1_user_path(conn, :update, user), user: @invalid_attrs)
 
@@ -192,8 +186,6 @@ defmodule FiftyTwo.Api.UserControllerTest do
     end
 
     test "DELETE /api/v1/users/:id", %{conn: conn, user: user} do
-      user = insert(:user)
-
       conn = conn
       |> delete(api_v1_user_path(conn, :delete, user))
 

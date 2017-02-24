@@ -3,7 +3,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
 
   import FiftyTwo.Factory
 
-  alias FiftyTwo.{User, Game, Challenge}
+  alias FiftyTwo.Game
 
   @valid_attrs %{appid: 52, date_completed: %{day: 17, month: 4, year: 2010}, date_started: %{day: 17, month: 4, year: 2010}, image: "image", platform: "platform", playtime: "120.5", title: "title"}
   @invalid_attrs %{title: "", platform: ""}

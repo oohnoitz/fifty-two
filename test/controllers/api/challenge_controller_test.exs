@@ -3,7 +3,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
 
   import FiftyTwo.Factory
 
-  alias FiftyTwo.{User, Game, Challenge}
+  alias FiftyTwo.Challenge
 
   @valid_attrs %{name: "name", year: 2017}
   @invalid_attrs %{name: "", year: nil}
