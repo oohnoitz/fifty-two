@@ -16,7 +16,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       assert json_response(conn, 200) == %{"challenges" => []}
     end
 
-    test "GET /api/v1/challenges/:id", %{conn: conn} do
+    test "GET /api/v1/challenges/:id 200", %{conn: conn} do
       user = insert(:user)
       challenge = insert(:challenge, user: user)
       game = insert(:game, challenge: challenge)
@@ -44,6 +44,13 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
           "user" => %{"id" => user.id, "username" => user.username}
         },
       }
+    end
+
+    test "GET /api/v1/challenges/:id 404", %{conn: conn} do
+      conn = conn
+      |> get(api_v1_challenge_path(conn, :show, %Challenge{id: 123456789}))
+
+      assert response(conn, 404) == ""
     end
 
     test "POST /api/v1/challenges with valid data", %{conn: conn} do

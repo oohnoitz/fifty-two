@@ -27,13 +27,6 @@ defmodule FiftyTwo.Router do
     pipe_through [:browser, :session]
 
     get "/", PageController, :index
-
-    get  "/login",  AuthController, :new
-    post "/login",  AuthController, :create
-    get  "/logout", AuthController, :delete
-
-    resources "/challenges", ChallengeController
-    resources "/games", GameController
   end
 
   scope "/api", FiftyTwo do

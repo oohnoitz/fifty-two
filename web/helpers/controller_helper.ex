@@ -4,10 +4,10 @@ defmodule FiftyTwo.ControllerHelper do
 
   def handle_not_found(conn) do
     case get_format(conn) do
-      "html" ->
-        conn
-        |> put_flash(:error, "That resource does not exist!")
-        |> put_status(404)
+      # "html" ->
+      #   conn
+      #   |> put_flash(:error, "That resource does not exist!")
+      #   |> put_status(404)
       "json" ->
         conn
         |> put_status(404)
@@ -19,10 +19,10 @@ defmodule FiftyTwo.ControllerHelper do
 
   def handle_unauthorized(conn) do
     case get_format(conn) do
-      "html" ->
-        conn
-        |> put_flash(:error, "You are not authorized to access that resource!")
-        |> redirect(to: "/")
+      # "html" ->
+      #   conn
+      #   |> put_flash(:error, "You are not authorized to access that resource!")
+      #   |> redirect(to: "/")
       "json" ->
         conn
         |> put_status(401)
