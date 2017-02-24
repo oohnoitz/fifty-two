@@ -11,7 +11,7 @@ defmodule FiftyTwo.Api.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset_registration(%User{})
+    changeset = User.changeset_registration(%User{}, user_params)
 
     case Repo.insert(changeset) do
       {:ok, user} ->
