@@ -42,8 +42,8 @@ defmodule FiftyTwo.Router do
 
     scope "/v1", as: :api_v1 do
       resources "/auth", Api.AuthController, only: [:create, :delete]
-      resources "/challenges", Api.ChallengeController
-      resources "/games", Api.GameController
+      resources "/challenges", Api.ChallengeController, except: [:new, :edit]
+      resources "/games", Api.GameController, except: [:new, :edit]
     end
   end
 end
