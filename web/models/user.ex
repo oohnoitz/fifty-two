@@ -40,6 +40,12 @@ defmodule FiftyTwo.User do
     |> validate_length(:password, min: 6)
   end
 
+  def set_password(struct, password) do
+    struct
+    |> changeset(%{"password" => password})
+    |> FiftyTwo.Repo.update!
+  end
+
   defp generate_encrypted_password(current_changeset) do
     case current_changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password}} ->

@@ -1,10 +1,12 @@
 defmodule FiftyTwo.Api.ChallengeControllerTest do
   use FiftyTwo.ConnCase
 
+  import FiftyTwo.Factory
+
   alias FiftyTwo.{User, Game, Challenge}
 
   @valid_attrs %{name: "name", year: 2017}
-  @invalid_attrs %{}
+  @invalid_attrs %{name: "", year: nil}
 
   describe "as anon" do
     test "GET /api/v1/challenges", %{conn: conn} do
@@ -15,9 +17,9 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     end
 
     test "GET /api/v1/challenges/:id", %{conn: conn} do
-      user = Repo.insert! %User{username: "username"}
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
-      game = Repo.insert! %Game{challenge_id: challenge.id}
+      user = insert(:user)
+      challenge = insert(:challenge, user: user)
+      game = insert(:game, challenge: challenge)
 
       conn = conn
       |> get(api_v1_challenge_path(conn, :show, challenge))
@@ -25,23 +27,23 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
       assert json_response(conn, 200) == %{
         "challenge" => %{
           "id" => challenge.id,
-          "name" => "name",
-          "year" => 2017,
+          "name" => challenge.name,
+          "year" => challenge.year,
           "games" => [
             %{
               "id" => game.id,
-              "title" => nil,
+              "title" => game.title,
               "appid" => nil,
               "image" => nil,
-              "platform" => nil,
+              "platform" => game.platform,
               "date_started" => nil,
               "date_completed" => nil,
               "playtime" => nil,
             },
           ],
           "user" => %{"id" => user.id, "username" => user.username}
-          },
-        }
+        },
+      }
     end
 
     test "POST /api/v1/challenges with valid data", %{conn: conn} do
@@ -60,7 +62,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     end
 
     test "PUT /api/v1/challenges/:id with valid data", %{conn: conn} do
-      challenge = Repo.insert! %Challenge{}
+      challenge = insert(:challenge)
 
       conn = conn
       |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @valid_attrs)
@@ -70,7 +72,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     end
 
     test "PUT /api/v1/challenges/:id with invalid data", %{conn: conn} do
-      challenge = Repo.insert! %Challenge{}
+      challenge = insert(:challenge)
 
       conn = conn
       |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @invalid_attrs)
@@ -79,7 +81,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     end
 
     test "DELETE /api/v1/challenges/:id", %{conn: conn} do
-      challenge = Repo.insert! %Challenge{}
+      challenge = insert(:challenge)
 
       conn = conn
       |> delete(api_v1_challenge_path(conn, :delete, challenge))
@@ -91,7 +93,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
 
   describe "as user" do
     setup do
-      user = Repo.insert! %User{username: "username", password: "password", email: "test@local.host"}
+      user = insert(:user)
       conn = api_login(user)
 
       {:ok, conn: conn, user: user}
@@ -105,12 +107,20 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     end
 
     test "GET /api/v1/challenges/:id", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
+      challenge = insert(:challenge, user: user)
 
       conn = conn
       |> get(api_v1_challenge_path(conn, :show, challenge))
 
-      assert json_response(conn, 200) == %{"challenge" => %{"id" => challenge.id, "name" => "name", "year" => 2017, "games" => [], "user" => %{"id" => user.id, "username" => user.username}}}
+      assert json_response(conn, 200) == %{
+        "challenge" => %{
+          "id" => challenge.id,
+          "name" => challenge.name,
+          "year" => challenge.year,
+          "games" => [],
+          "user" => %{"id" => user.id, "username" => user.username}
+        }
+      }
     end
 
     test "POST /api/v1/challenges with valid data", %{conn: conn} do
@@ -137,7 +147,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     end
 
     test "PUT /api/v1/challenges/:id with valid data", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{user_id: user.id}
+      challenge = insert(:challenge, user: user)
 
       conn = conn
       |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @valid_attrs)
@@ -147,7 +157,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     end
 
     test "PUT /api/v1/challenges/:id with invalid data", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{user_id: user.id}
+      challenge = insert(:challenge, user: user)
 
       conn = conn
       |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @invalid_attrs)
@@ -161,7 +171,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     end
 
     test "DELETE /api/v1/challenges/:id", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{user_id: user.id}
+      challenge = insert(:challenge, user: user)
 
       conn = conn
       |> delete(api_v1_challenge_path(conn, :delete, challenge))
@@ -173,14 +183,14 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
 
   describe "as another user" do
     setup do
-      user = Repo.insert! %User{username: "username", password: "password", email: "test@local.host"}
-      conn = api_login(Repo.insert! %User{})
+      user = insert(:user)
+      conn = api_login(insert(:user))
 
       {:ok, conn: conn, user: user}
     end
 
     test "PUT /api/v1/challenges/:id with valid data", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{user_id: user.id}
+      challenge = insert(:challenge, user: user)
 
       conn = conn
       |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @valid_attrs)
@@ -190,7 +200,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     end
 
     test "PUT /api/v1/challenges/:id with invalid data", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{user_id: user.id}
+      challenge = insert(:challenge, user: user)
 
       conn = conn
       |> put(api_v1_challenge_path(conn, :update, challenge), challenge: @invalid_attrs)
@@ -199,7 +209,7 @@ defmodule FiftyTwo.Api.ChallengeControllerTest do
     end
 
     test "DELETE /api/v1/challenges/:id", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{user_id: user.id}
+      challenge = insert(:challenge, user: user)
 
       conn = conn
       |> delete(api_v1_challenge_path(conn, :delete, challenge))

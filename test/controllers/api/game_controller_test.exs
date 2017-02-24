@@ -1,10 +1,12 @@
 defmodule FiftyTwo.Api.GameControllerTest do
   use FiftyTwo.ConnCase
 
+  import FiftyTwo.Factory
+
   alias FiftyTwo.{User, Game, Challenge}
 
   @valid_attrs %{appid: 52, date_completed: %{day: 17, month: 4, year: 2010}, date_started: %{day: 17, month: 4, year: 2010}, image: "image", platform: "platform", playtime: "120.5", title: "title"}
-  @invalid_attrs %{}
+  @invalid_attrs %{title: "", platform: ""}
 
   describe "as anon" do
     test "GET /api/v1/games", %{conn: conn} do
@@ -15,9 +17,9 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "GET /api/v1/games/:id", %{conn: conn} do
-      user = Repo.insert! %User{username: "username"}
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
-      game = Repo.insert! %Game{challenge_id: challenge.id}
+      user = insert(:user)
+      challenge = insert(:challenge, user: user)
+      game = insert(:game, challenge: challenge)
 
       conn = conn
       |> get(api_v1_game_path(conn, :show, game))
@@ -25,17 +27,17 @@ defmodule FiftyTwo.Api.GameControllerTest do
       assert json_response(conn, 200) == %{
         "game" => %{
           "id" => game.id,
-          "title" => nil,
+          "title" => game.title,
           "appid" => nil,
           "image" => nil,
-          "platform" => nil,
+          "platform" => game.platform,
           "date_started" => nil,
           "date_completed" => nil,
           "playtime" => nil,
           "challenge" => %{
             "id" => challenge.id,
-            "name" => "name",
-            "year" => 2017,
+            "name" => challenge.name,
+            "year" => challenge.year,
             "user" => %{"id" => user.id, "username" => user.username},
           },
         },
@@ -58,7 +60,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "PUT /api/v1/games/:id with valid data", %{conn: conn} do
-      game = Repo.insert! %Game{}
+      game = insert(:game)
 
       conn = conn
       |> put(api_v1_game_path(conn, :update, game), game: @valid_attrs)
@@ -68,7 +70,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "PUT /api/v1/games/:id with invalid data", %{conn: conn} do
-      game = Repo.insert! %Game{}
+      game = insert(:game)
 
       conn = conn
       |> put(api_v1_game_path(conn, :update, game), game: @invalid_attrs)
@@ -77,7 +79,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "DELETE /api/v1/games/:id", %{conn: conn} do
-      game = Repo.insert! %Game{}
+      game = insert(:game)
 
       conn = conn
       |> delete(api_v1_game_path(conn, :delete, game))
@@ -89,7 +91,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
 
   describe "as user" do
     setup do
-      user = Repo.insert! %User{username: "username", password: "password", email: "test@local.host"}
+      user = insert(:user)
       conn = api_login(user)
 
       {:ok, conn: conn, user: user}
@@ -103,8 +105,8 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "GET /api/v1/games/:id", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
-      game = Repo.insert! %Game{challenge_id: challenge.id}
+      challenge = insert(:challenge, user: user)
+      game = insert(:game, challenge: challenge)
 
       conn = conn
       |> get(api_v1_game_path(conn, :show, game))
@@ -112,17 +114,17 @@ defmodule FiftyTwo.Api.GameControllerTest do
       assert json_response(conn, 200) == %{
         "game" => %{
           "id" => game.id,
-          "title" => nil,
+          "title" => game.title,
           "appid" => nil,
           "image" => nil,
-          "platform" => nil,
+          "platform" => game.platform,
           "date_started" => nil,
           "date_completed" => nil,
           "playtime" => nil,
           "challenge" => %{
             "id" => challenge.id,
-            "name" => "name",
-            "year" => 2017,
+            "name" => challenge.name,
+            "year" => challenge.year,
             "user" => %{"id" => user.id, "username" => user.username},
           },
         },
@@ -130,7 +132,7 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "POST /api/v1/games with valid data", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
+      challenge = insert(:challenge, user: user)
 
       conn = conn
       |> post(api_v1_game_path(conn, :create), game: Map.put(@valid_attrs, "challenge_id", challenge.id))
@@ -156,8 +158,8 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "PUT /api/v1/games/:id with valid data", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
-      game = Repo.insert! %Game{challenge_id: challenge.id}
+      challenge = insert(:challenge, user: user)
+      game = insert(:game, challenge: challenge)
 
       conn = conn
       |> put(api_v1_game_path(conn, :update, game), game: @valid_attrs)
@@ -167,8 +169,8 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "PUT /api/v1/games/:id with invalid data", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
-      game = Repo.insert! %Game{challenge_id: challenge.id}
+      challenge = insert(:challenge, user: user)
+      game = insert(:game, challenge: challenge)
 
       conn = conn
       |> put(api_v1_game_path(conn, :update, game), game: @invalid_attrs)
@@ -182,8 +184,8 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "DELETE /api/v1/games/:id", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
-      game = Repo.insert! %Game{challenge_id: challenge.id}
+      challenge = insert(:challenge, user: user)
+      game = insert(:game, challenge: challenge)
 
       conn = conn
       |> delete(api_v1_game_path(conn, :delete, game))
@@ -195,15 +197,15 @@ defmodule FiftyTwo.Api.GameControllerTest do
 
   describe "as another user" do
     setup do
-      user = Repo.insert! %User{username: "username", password: "password", email: "test@local.host"}
-      conn = api_login(Repo.insert! %User{})
+      user = insert(:user)
+      conn = api_login(insert(:user))
 
       {:ok, conn: conn, user: user}
     end
 
     test "PUT /api/v1/games/:id with valid data", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
-      game = Repo.insert! %Game{challenge_id: challenge.id}
+      challenge = insert(:challenge, user: user)
+      game = insert(:game, challenge: challenge)
 
       conn = conn
       |> put(api_v1_game_path(conn, :update, game), game: @valid_attrs)
@@ -213,8 +215,8 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "PUT /api/v1/games/:id with invalid data", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
-      game = Repo.insert! %Game{challenge_id: challenge.id}
+      challenge = insert(:challenge, user: user)
+      game = insert(:game, challenge: challenge)
 
       conn = conn
       |> put(api_v1_game_path(conn, :update, game), game: @invalid_attrs)
@@ -223,8 +225,8 @@ defmodule FiftyTwo.Api.GameControllerTest do
     end
 
     test "DELETE /api/v1/games/:id", %{conn: conn, user: user} do
-      challenge = Repo.insert! %Challenge{name: "name", year: 2017, user_id: user.id}
-      game = Repo.insert! %Game{challenge_id: challenge.id}
+      challenge = insert(:challenge, user: user)
+      game = insert(:game, challenge: challenge)
 
       conn = conn
       |> delete(api_v1_game_path(conn, :delete, game))

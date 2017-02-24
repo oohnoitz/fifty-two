@@ -44,7 +44,8 @@ defmodule FiftyTwo.Mixfile do
      {:comeonin, "~> 3.0"},
      {:guardian, "~> 0.14"},
      {:canary, "~> 1.1"},
-     {:corsica, "~> 0.5"}]
+     {:corsica, "~> 0.5"},
+     {:ex_machina, "~> 1.0", only: :test}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
