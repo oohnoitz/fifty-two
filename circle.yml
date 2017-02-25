@@ -30,3 +30,10 @@ test:
   override:
     - mix coveralls.circle
     - mkdir -p $CIRCLE_TEST_REPORTS/exunit; cp _build/test/lib/fifty_two/results.xml $CIRCLE_TEST_REPORTS/exunit
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - git push git@heroku.com:fifty-two-api.git $CIRCLE_SHA1:master
+      - heroku run --app fifty-two-api "POLL_SIZE=2 mix ecto.migrate"
