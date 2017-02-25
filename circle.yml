@@ -36,4 +36,4 @@ deployment:
     branch: master
     commands:
       - git push git@heroku.com:fifty-two-api.git $CIRCLE_SHA1:master
-      - heroku run --app fifty-two-api "POLL_SIZE=2 mix ecto.migrate"
+      - heroku run --app fifty-two-api "POOL_SIZE=2 mix ecto.migrate"
