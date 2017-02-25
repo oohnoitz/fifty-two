@@ -24,6 +24,7 @@ defmodule FiftyTwo.GameView do
       date_completed: data.date_completed,
       playtime: data.playtime,
       challenge: challenge_json(data.challenge),
+      updated_at: data.updated_at,
     }
   end
 
@@ -33,6 +34,7 @@ defmodule FiftyTwo.GameView do
       name: challenge.name,
       year: challenge.year,
       user: user_json(challenge.user),
+      updated_at: challenge.updated_at,
     }
   end
 

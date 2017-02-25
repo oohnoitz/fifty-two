@@ -25,5 +25,11 @@ defmodule FiftyTwo.Game do
     struct
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> prepare_changes(fn changeset ->
+      timestamp = NaiveDateTime.utc_now
+      assoc(changeset.data, :challenge)
+      |> changeset.repo.update_all(set: [updated_at: timestamp])
+      put_change(changeset, :updated_at, timestamp)
+    end)
   end
 end

@@ -20,6 +20,7 @@ defmodule FiftyTwo.ChallengeView do
       year: data.year,
       user: user_json(data.user),
       games: Enum.map(data.games, &game_json/1),
+      updated_at: data.updated_at,
     }
   end
 

@@ -41,7 +41,8 @@ defmodule FiftyTwo.ChallengeControllerTest do
               "playtime" => nil,
             },
           ],
-          "user" => %{"id" => user.id, "username" => user.username}
+          "user" => %{"id" => user.id, "username" => user.username},
+          "updated_at" => NaiveDateTime.to_iso8601(challenge.updated_at),
         },
       }
     end
@@ -125,7 +126,8 @@ defmodule FiftyTwo.ChallengeControllerTest do
           "name" => challenge.name,
           "year" => challenge.year,
           "games" => [],
-          "user" => %{"id" => user.id, "username" => user.username}
+          "user" => %{"id" => user.id, "username" => user.username},
+          "updated_at" => NaiveDateTime.to_iso8601(challenge.updated_at),
         }
       }
     end
