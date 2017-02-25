@@ -16,7 +16,7 @@ config :fifty_two, FiftyTwo.Endpoint,
   url: [
     scheme: System.get_env("URL_SCHEME") || "http",
     host: System.get_env("URL_HOST"),
-    port: System.get_env("URL_PORT")
+    port: String.to_integer(System.get_env("URL_PORT") || "80")
   ],
   cache_static_manifest: "priv/static/manifest.json"
 
