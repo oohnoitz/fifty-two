@@ -36,6 +36,6 @@ defmodule FiftyTwo.Endpoint do
     key: "_fifty_two_key",
     signing_salt: "HnbNtJJy"
 
-  plug Corsica, origins: "*", allow_headers: ["content-type"]
+  plug Corsica, origins: "*", allow_headers: ["authorization", "content-type"]
   plug FiftyTwo.Router
 end
