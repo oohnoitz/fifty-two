@@ -147,7 +147,7 @@ defmodule FiftyTwo.ChallengeControllerTest do
       conn = conn
       |> post(api_challenge_path(conn, :create), challenge: @invalid_attrs)
 
-      assert json_response(conn, 409) == %{
+      assert json_response(conn, 422) == %{
         "errors" => [
           %{"source" => %{"pointer" => "/data/attributes/name"}, "detail" => "can't be blank"},
           %{"source" => %{"pointer" => "/data/attributes/year"}, "detail" => "can't be blank"},

@@ -29,7 +29,7 @@ defmodule FiftyTwo.ChallengeController do
         |> text("")
       {:error, changeset} ->
         conn
-        |> put_status(409)
+        |> put_status(422)
         |> render(FiftyTwo.ErrorView, "changeset.json", changeset: changeset)
     end
   end

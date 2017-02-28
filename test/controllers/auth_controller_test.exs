@@ -33,7 +33,7 @@ defmodule FiftyTwo.AuthControllerTest do
     |> put_req_header("authorization", "Bearer #{jwt}")
     |> delete(api_auth_path(conn, :delete, user))
 
-    assert json_response(conn, 200)
+    assert response(conn, 204)
   end
 
   test "returns error with invalid token", %{conn: conn, user: user} do

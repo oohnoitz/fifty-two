@@ -22,22 +22,24 @@ defmodule FiftyTwo.AuthController do
       {:error, _} ->
         conn
         |> put_status(401)
-        |> render("error.json", success: false, message: "Invalid Credentials.")
+        |> render("error.json", pointer: "/action/create", detail: "Invalid Credentials.")
     end
   end
 
   def delete(conn, _params) do
-    {status_code, response} = case Guardian.Plug.claims(conn) do
+    case Guardian.Plug.claims(conn) do
       {:ok, claims} ->
         jwt = Guardian.Plug.current_token(conn)
         Guardian.revoke!(jwt, claims)
-        {200, %{success: true, message: "Logged Out!"}}
-      {:error, :no_session} ->
-        {401, %{success: false, message: "Logged Out!"}}
-    end
 
-    conn
-    |> put_status(status_code)
-    |> render("logout.json", response)
+        conn
+        |> put_status(204)
+        |> put_resp_header("content-type", "application/json")
+        |> text("")
+      {:error, :no_session} ->
+        conn
+        |> put_status(401)
+        |> render("error.json", pointer: "/action/delete", detail: "Session does not exist!")
+    end
   end
 end
