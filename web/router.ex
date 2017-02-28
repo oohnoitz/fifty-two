@@ -3,7 +3,6 @@ defmodule FiftyTwo.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug Corsica, origins: "*"
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     plug Guardian.Plug.LoadResource
     plug FiftyTwo.Plug.CurrentUser
