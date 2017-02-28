@@ -42,4 +42,21 @@ defmodule FiftyTwo.AuthControllerTest do
 
     assert json_response(conn, 401)
   end
+
+  test "returns response with valid auth token", %{conn: conn, user: user} do
+    {:ok, jwt, _claims} = Guardian.encode_and_sign(user)
+
+    conn = conn
+    |> put_req_header("authorization", "Bearer #{jwt}")
+    |> get(api_auth_path(conn, :verify))
+
+    assert response(conn, 200)
+  end
+
+  test "returns error with invalid auth token", %{conn: conn, user: user} do
+    conn = conn
+    |> get(api_auth_path(conn, :verify))
+
+    assert response(conn, 401)
+  end
 end

@@ -3,9 +3,6 @@ defmodule FiftyTwo.AuthController do
 
   alias FiftyTwo.Auth
 
-  plug :scrub_params, "username" when action in [:create]
-  plug :scrub_params, "password" when action in [:create]
-
   def create(conn, params) do
     case Auth.authenticate(params) do
       {:ok, user} ->
@@ -23,6 +20,18 @@ defmodule FiftyTwo.AuthController do
         conn
         |> put_status(401)
         |> render("error.json", pointer: "/action/create", detail: "Invalid Credentials.")
+    end
+  end
+
+  def verify(conn, _params) do
+    case Guardian.Plug.authenticated?(conn) do
+      true ->
+        conn
+        |> render("login.json", user: conn.assigns.current_user, jwt: nil)
+      false ->
+        conn
+        |> put_status(401)
+        |> render("error.json", pointer: "/action/verify", detail: "Session does not exist!")
     end
   end
 

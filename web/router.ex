@@ -11,6 +11,7 @@ defmodule FiftyTwo.Router do
   scope "/", FiftyTwo, as: :api do
     pipe_through [:api]
 
+    get "/auth/verify", AuthController, :verify
     resources "/auth", AuthController, only: [:create, :delete]
     resources "/challenges", ChallengeController, except: [:new, :edit]
     resources "/games", GameController, except: [:new, :edit]
