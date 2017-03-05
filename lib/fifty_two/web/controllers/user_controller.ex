@@ -5,6 +5,8 @@ defmodule FiftyTwo.Web.UserController do
 
   plug :load_and_authorize_resource, model: User, except: [:index]
 
+  action_fallback FiftyTwo.Web.FallbackController
+
   def index(conn, _params) do
     users = Repo.all(User)
     render(conn, "index.json", users: users)
@@ -13,17 +15,12 @@ defmodule FiftyTwo.Web.UserController do
   def create(conn, %{"user" => user_params}) do
     changeset = User.changeset_registration(%User{}, user_params)
 
-    case Repo.insert(changeset) do
-      {:ok, user} ->
-        conn
-        |> put_status(201)
-        |> put_resp_header("content-type", "application/json")
-        |> put_resp_header("location", api_user_url(conn, :show, user))
-        |> text("")
-      {:error, changeset} ->
-        conn
-        |> put_status(409)
-        |> render(FiftyTwo.Web.ErrorView, "changeset.json", changeset: changeset)
+    with {:ok, %User{} = user} <- Repo.insert(changeset) do
+      conn
+      |> put_status(201)
+      |> put_resp_header("content-type", "application/json")
+      |> put_resp_header("location", api_user_url(conn, :show, user))
+      |> text("")
     end
   end
 
@@ -36,27 +33,21 @@ defmodule FiftyTwo.Web.UserController do
     user = conn.assigns.user
     changeset = User.changeset(user, user_params)
 
-    case Repo.update(changeset) do
-      {:ok, _} ->
-        conn
-        |> put_status(204)
-        |> put_resp_header("content-type", "application/json")
-        |> text("")
-      {:error, changeset} ->
-        conn
-        |> put_status(422)
-        |> render(FiftyTwo.Web.ErrorView, "changeset.json", changeset: changeset)
+    with {:ok, %User{} = user} <- Repo.update(changeset) do
+      conn
+      |> put_status(204)
+      |> put_resp_header("content-type", "application/json")
+      |> text("")
     end
   end
 
   def delete(conn, %{"id" => _id}) do
     user = conn.assigns.user
-    case Repo.delete(user) do
-      {:ok, _} ->
-        conn
-        |> put_status(204)
-        |> put_resp_header("content-type", "application/json")
-        |> text("")
+    with {:ok, %User{}} <- Repo.delete(user) do
+      conn
+      |> put_status(204)
+      |> put_resp_header("content-type", "application/json")
+      |> text("")
     end
   end
 end

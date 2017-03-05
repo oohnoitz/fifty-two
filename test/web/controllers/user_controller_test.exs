@@ -43,7 +43,7 @@ defmodule FiftyTwo.Web.UserControllerTest do
       conn = conn
       |> post(api_user_path(conn, :create), user: @invalid_attrs)
 
-      assert json_response(conn, 409) == %{
+      assert json_response(conn, 422) == %{
         "errors" => [
           %{"source" => %{"pointer" => "/data/attributes/password"}, "detail" => "can't be blank"},
           %{"source" => %{"pointer" => "/data/attributes/username"}, "detail" => "can't be blank"},
@@ -124,7 +124,7 @@ defmodule FiftyTwo.Web.UserControllerTest do
       conn = conn
       |> post(api_user_path(conn, :create), user: @invalid_attrs)
 
-      assert json_response(conn, 409) == %{
+      assert json_response(conn, 422) == %{
         "errors" => [
           %{"source" => %{"pointer" => "/data/attributes/password"}, "detail" => "can't be blank"},
           %{"source" => %{"pointer" => "/data/attributes/username"}, "detail" => "can't be blank"},

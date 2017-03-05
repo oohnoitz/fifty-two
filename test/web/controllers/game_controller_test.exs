@@ -152,7 +152,7 @@ defmodule FiftyTwo.Web.GameControllerTest do
       conn = conn
       |> post(api_game_path(conn, :create), game: @invalid_attrs)
 
-      assert json_response(conn, 409) == %{
+      assert json_response(conn, 422) == %{
         "errors" => [
           %{"source" => %{"pointer" => "/data/attributes/challenge_id"}, "detail" => "can't be blank"},
           %{"source" => %{"pointer" => "/data/attributes/title"}, "detail" => "can't be blank"},

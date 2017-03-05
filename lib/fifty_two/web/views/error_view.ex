@@ -1,7 +1,7 @@
 defmodule FiftyTwo.Web.ErrorView do
   use FiftyTwo.Web, :view
 
-  def render("changeset.json", %{changeset: changeset}) do
+  def render("error.json", %{changeset: changeset}) do
     errors = Enum.map(changeset.errors, fn {field, error} ->
       %{
         source: %{pointer: "/data/attributes/#{field}"},
