@@ -1,10 +1,10 @@
 {
   "skip_files": [
-    "lib/fifty_two/endpoint.ex",
+    "lib/fifty_two/web/endpoint.ex",
+    "lib/fifty_two/web/gettext.ex",
+    "lib/fifty_two/web/web.ex",
+    "lib/fifty_two/application.ex",
     "lib/fifty_two/repo.ex",
-    "lib/fifty_two.ex",
-    "test/support",
-    "web/gettext.ex",
-    "web/web.ex"
+    "test/support"
   ]
 }
