@@ -1,10 +1,10 @@
 defmodule FiftyTwo.AuthTest do
-  use FiftyTwo.ModelCase
+  use FiftyTwo.DataCase
 
-  alias FiftyTwo.Auth
+  alias FiftyTwo.{Auth, User}
 
   setup do
-    user = FiftyTwo.User.changeset_registration(%FiftyTwo.User{}, %{username: "username", password: "password", email: "test@test.localhost"})
+    user = User.changeset_registration(%User{}, %{username: "username", password: "password", email: "test@test.localhost"})
     Repo.insert!(user)
     :ok
   end

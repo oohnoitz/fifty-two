@@ -1,4 +1,4 @@
-defmodule FiftyTwo.ChannelCase do
+defmodule FiftyTwo.Web.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -20,24 +20,16 @@ defmodule FiftyTwo.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias FiftyTwo.Repo
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
-
-
       # The default endpoint for testing
-      @endpoint FiftyTwo.Endpoint
+      @endpoint FiftyTwo.Web.Endpoint
     end
   end
 
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(FiftyTwo.Repo)
-
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(FiftyTwo.Repo, {:shared, self()})
     end
-
     :ok
   end
 end

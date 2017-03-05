@@ -1,5 +1,5 @@
 defmodule FiftyTwo.UserTest do
-  use FiftyTwo.ModelCase
+  use FiftyTwo.DataCase
 
   alias FiftyTwo.User
 

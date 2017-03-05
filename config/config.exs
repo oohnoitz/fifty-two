@@ -10,11 +10,11 @@ config :fifty_two,
   ecto_repos: [FiftyTwo.Repo]
 
 # Configures the endpoint
-config :fifty_two, FiftyTwo.Endpoint,
+config :fifty_two, FiftyTwo.Web.Endpoint,
   url: [host: "localhost"],
   force_ssl: System.get_env("FORCE_SSL") == "true",
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
-  render_errors: [view: FiftyTwo.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: FiftyTwo.Web.ErrorView, accepts: ~w(html json)],
   pubsub: [name: FiftyTwo.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
@@ -29,13 +29,13 @@ config :guardian, Guardian,
   allowed_drift: 2000,
   verify_issuer: true,
   secret_key: System.get_env("SECRET_KEY_PASS"),
-  serializer: FiftyTwo.Serializer.Guardian
+  serializer: FiftyTwo.Web.Serializer.Guardian
 
 config :canary,
   repo: FiftyTwo.Repo,
   current_user: :current_user,
-  not_found_handler: {FiftyTwo.ControllerHelper, :handle_not_found},
-  unauthorized_handler: {FiftyTwo.ControllerHelper, :handle_unauthorized}
+  not_found_handler: {FiftyTwo.Web.ControllerHelper, :handle_not_found},
+  unauthorized_handler: {FiftyTwo.Web.ControllerHelper, :handle_unauthorized}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

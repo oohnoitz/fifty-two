@@ -1,5 +1,5 @@
 defmodule FiftyTwo.GameTest do
-  use FiftyTwo.ModelCase
+  use FiftyTwo.DataCase
 
   alias FiftyTwo.Game
 

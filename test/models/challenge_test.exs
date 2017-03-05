@@ -1,5 +1,5 @@
 defmodule FiftyTwo.ChallengeTest do
-  use FiftyTwo.ModelCase
+  use FiftyTwo.DataCase
 
   alias FiftyTwo.Challenge
 

@@ -1,4 +1,4 @@
-defmodule FiftyTwo.ConnCase do
+defmodule FiftyTwo.Web.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -25,19 +25,10 @@ defmodule FiftyTwo.ConnCase do
       import Ecto.Changeset
       import Ecto.Query
 
-      import FiftyTwo.Router.Helpers
+      import FiftyTwo.Web.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint FiftyTwo.Endpoint
-
-      def login(user, token \\ :token, opts \\ []) do
-        Phoenix.ConnTest.build_conn()
-        |> bypass_through(FiftyTwo.Router, [:browser, :session])
-        |> get("/")
-        |> Guardian.Plug.sign_in(user, token, opts)
-        |> send_resp(200, "Flush Session!")
-        |> recycle
-      end
+      @endpoint FiftyTwo.Web.Endpoint
 
       def api_login(user, token \\ :token, opts \\ []) do
         {:ok, jwt, _claims} = Guardian.encode_and_sign(user)
@@ -50,11 +41,9 @@ defmodule FiftyTwo.ConnCase do
 
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(FiftyTwo.Repo)
-
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(FiftyTwo.Repo, {:shared, self()})
     end
-
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end
