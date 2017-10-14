@@ -4,7 +4,7 @@ defmodule FiftyTwo.Mixfile do
   def project do
     [app: :fifty_two,
      version: "0.0.1",
-     elixir: "~> 1.4",
+     elixir: "~> 1.5",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
@@ -34,18 +34,18 @@ defmodule FiftyTwo.Mixfile do
     [{:junit_formatter, ">= 0.0.0", only: :test},
      {:excoveralls, "~> 0.6", only: :test},
      {:postgrex, ">= 0.0.0"},
-     {:phoenix, "~> 1.3.0-rc", override: true},
+     {:phoenix, "~> 1.3.0"},
      {:phoenix_pubsub, "~> 1.0"},
-     {:phoenix_ecto, "~> 3.2.2"},
-     {:phoenix_html, "~> 2.6"},
+     {:phoenix_ecto, "~> 3.3"},
+     {:phoenix_html, "~> 2.10"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 3.0"},
      {:guardian, "~> 0.14"},
      {:canary, "~> 1.1"},
-     {:corsica, "~> 0.5"},
-     {:ex_machina, "~> 1.0", only: :test}]
+     {:corsica, "~> 1.0"},
+     {:ex_machina, "~> 2.0", only: :test}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
