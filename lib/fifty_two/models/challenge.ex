@@ -3,7 +3,6 @@ defmodule FiftyTwo.Challenge do
 
   import Ecto
   import Ecto.Changeset
-  import Ecto.Query
 
   schema "challenges" do
     field :name, :string

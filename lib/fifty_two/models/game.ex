@@ -3,15 +3,14 @@ defmodule FiftyTwo.Game do
 
   import Ecto
   import Ecto.Changeset
-  import Ecto.Query
 
   schema "games" do
     field :title, :string
     field :appid, :integer
     field :image, :string
     field :platform, :string
-    field :date_started, Ecto.Date
-    field :date_completed, Ecto.Date
+    field :date_started, :date
+    field :date_completed, :date
     field :playtime, :decimal
 
     belongs_to :challenge, FiftyTwo.Challenge

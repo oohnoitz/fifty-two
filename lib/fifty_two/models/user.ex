@@ -3,7 +3,6 @@ defmodule FiftyTwo.User do
 
   import Ecto
   import Ecto.Changeset
-  import Ecto.Query
 
   @derive {Poison.Encoder, only: [:id, :username, :email]}
 
